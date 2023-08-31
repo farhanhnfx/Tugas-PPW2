@@ -8,8 +8,8 @@
 </head>
 <body>
     <h1>Halaman About</h1>
-     <h2>{{ $name; }}</h2>
-     <h2>{{ $email; }}</h2>
+     <h2>{{ $name }}</h2>
+     <h2>{{ $email }}</h2>
 <script src="js/script.js"></script>
 </body>
 </html>
