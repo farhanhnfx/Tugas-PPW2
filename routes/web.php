@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BelajarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/about', function () {
+Route::get('/tentang', function () {
     return view('about', [
         "name" => "Farhan Hanif",
         "email" => "farhanhanif@mail.ugm.ac.id"
     ]);
 });
+
+Route::get('/belajar', [BelajarController::class, 'coba']);
