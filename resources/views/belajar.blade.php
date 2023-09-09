@@ -9,6 +9,6 @@
 <body>
     <h1>Belajar Controller Laravel</h1>
     <h3>{{ $username; }}</h3>
-    <h3>{{ $password; }}</h3>
+    <h3>{{ $address; }}</h3>
 </body>
 </html>

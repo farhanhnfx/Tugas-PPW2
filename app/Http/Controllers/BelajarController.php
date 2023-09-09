@@ -64,7 +64,7 @@ class BelajarController extends Controller
 
     public function coba() {
         $username = "farhanh";
-        $password = "test123";
-        return view('belajar', compact("username", "password"));
+        $address = "Bantul, D.I. Yogyakarta";
+        return view('belajar', compact("username", "address"));
     }
 }
