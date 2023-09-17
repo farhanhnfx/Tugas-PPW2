@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BelajarController;
+use App\Http\Controllers\BukuController;
+use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +28,7 @@ Route::get('/tentang', function () {
 });
 
 Route::get('/belajar', [BelajarController::class, 'coba']);
+
+Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
+
+Route::get('/buku', [BukuController::class, 'index']);
