@@ -16,36 +16,76 @@
             <input class="form-control me-2" type="search" name="kata" placeholder="Cari judul atau penulis..." aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Cari</button>
         </form><br>
+
         <p align='right'><a class="btn btn-success" href="{{ route('buku.create') }}">Tambah Buku</a></p>
-        <table class="table table-striped">
-            <tr>
-                <th>No</th>
-                <th>Judul Buku</th>
-                <th>Penulis</th>
-                <th>Harga</th>
-                <th>Tanggal Terbit</th>
-                <th>Aksi</th>
-            </tr>
-            @foreach($data_buku as $buku)
+
+        @if ($isCari)
+            @if (count($data_buku))
+                <div class="alert alert-succes">Ditemukan <strong>{{ count($data_buku) }}</strong> data dengan kata: <strong>{{ $cari }}</strong></div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>No</th>
+                        <th>Judul Buku</th>
+                        <th>Penulis</th>
+                        <th>Harga</th>
+                        <th>Tanggal Terbit</th>
+                        <th>Aksi</th>
+                    </tr>
+                    @foreach($data_buku as $buku)
+                        <tr>
+                            <td>{{ ++$no }}.</td>
+                            <td>{{ $buku->judul }}</td>
+                            <td>{{ $buku->penulis }}</td>
+                            <td>Rp{{ number_format($buku->harga, 0, ',', '.') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d/m/Y') }}</td>
+                            <td class="d-flex flex-row gap-1">
+                                <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
+                                    @csrf
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin mau dihapus?')">Hapus</button>
+                                </form>
+                                <a class="btn btn-secondary" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+                <div>
+                    {{ $data_buku->links() }}
+                </div>
+            @else
+                <div class="alert alert-warning"><h4>Data {{ $cari }} tidak ditemukan</h4>
+                <a href="/buku" class="btn btn-warning">Kembali</a></div>
+            @endif
+        @else
+            <table class="table table-striped">
                 <tr>
-                    <td>{{ ++$no }}.</td>
-                    <td>{{ $buku->judul }}</td>
-                    <td>{{ $buku->penulis }}</td>
-                    <td>Rp{{ number_format($buku->harga, 0, ',', '.') }}</td>
-                    <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d/m/Y') }}</td>
-                    <td class="d-flex flex-row gap-1">
-                        <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
-                            @csrf
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin mau dihapus?')">Hapus</button>
-                        </form>
-                        <a class="btn btn-secondary" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
-                    </td>
+                    <th>No</th>
+                    <th>Judul Buku</th>
+                    <th>Penulis</th>
+                    <th>Harga</th>
+                    <th>Tanggal Terbit</th>
+                    <th>Aksi</th>
                 </tr>
-            @endforeach
-        </table>
-        <div>
-            {{ $data_buku->links() }}
-        </div>
+                @foreach($data_buku as $buku)
+                    <tr>
+                        <td>{{ ++$no }}.</td>
+                        <td>{{ $buku->judul }}</td>
+                        <td>{{ $buku->penulis }}</td>
+                        <td>Rp{{ number_format($buku->harga, 0, ',', '.') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d/m/Y') }}</td>
+                        <td class="d-flex flex-row gap-1">
+                            <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
+                                @csrf
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin mau dihapus?')">Hapus</button>
+                            </form>
+                            <a class="btn btn-secondary" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+            <div>
+                {{ $data_buku->links() }}
+            </div>
+        @endif
     </div>
     <div class="container">
         <p>Jumlah Data: {{ $no }}</p>

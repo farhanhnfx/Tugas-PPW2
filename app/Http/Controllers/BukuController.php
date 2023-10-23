@@ -16,8 +16,9 @@ class BukuController extends Controller
         $data_buku = Buku::orderby('judul')->paginate($batas);
         $no = $batas * ($data_buku->currentPage()-1);
         $total_harga = Buku::sum('harga');
+        $isCari = false;
 
-        return view('buku.index', compact('data_buku', 'no', 'total_harga'));
+        return view('buku.index', compact('data_buku', 'no', 'total_harga', 'isCari'));
     }
 
     /**
@@ -97,7 +98,8 @@ class BukuController extends Controller
         $data_buku = Buku::where('judul', 'like', "%".$cari."%")->orwhere('penulis', 'like', "%".$cari."%")->paginate($batas);
         $no = $batas * ($data_buku->currentPage()-1);
         $total_harga = Buku::sum('harga');
+        $isCari = true;
 
-        return view('buku.index', compact('data_buku', 'no', 'total_harga'));
+        return view('buku.index', compact('data_buku', 'no', 'total_harga', 'cari', 'isCari'));
     }
 }
