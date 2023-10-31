@@ -37,7 +37,7 @@ class BukuController extends Controller
         $this->validate($request, [
             'judul' => 'required|string',
             'penulis' => 'required|string|max:30',
-            'harga' => 'required|numeric',
+            'harga' => 'required|numeric|min:500',
             'tgl_terbit' => 'required|date'
         ]);
         Buku::create([
