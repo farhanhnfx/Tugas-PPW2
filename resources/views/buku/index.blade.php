@@ -26,7 +26,9 @@
                         <button class="btn btn-outline-success" type="submit">Cari</button>
                     </form><br>
 
-                    <p align='right'><a class="btn btn-success" href="{{ route('buku.create') }}">Tambah Buku</a></p>
+                    @if (Auth::user()->level == 'admin')
+                        <p align='right'><a class="btn btn-success" href="{{ route('buku.create') }}">Tambah Buku</a></p>
+                    @endif
 
                     @if ($isCari)
                         @if (count($data_buku))
@@ -38,7 +40,9 @@
                                     <th>Penulis</th>
                                     <th>Harga</th>
                                     <th>Tanggal Terbit</th>
-                                    <th>Aksi</th>
+                                    @if (Auth::user()->level == 'admin')
+                                        <th>Aksi</th>
+                                    @endif
                                 </tr>
                                 @foreach($data_buku as $buku)
                                     <tr>
@@ -47,13 +51,15 @@
                                         <td>{{ $buku->penulis }}</td>
                                         <td>Rp{{ number_format($buku->harga, 0, ',', '.') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d/m/Y') }}</td>
-                                        <td class="d-flex flex-row gap-1">
-                                            <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
-                                                @csrf
-                                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Yakin mau dihapus?')">Hapus</button>
-                                            </form>
-                                            <a class="btn btn-secondary" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
-                                        </td>
+                                        @if (Auth::user()->level == 'admin')
+                                            <td class="d-flex flex-row gap-1">
+                                                <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
+                                                    @csrf
+                                                        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Yakin mau dihapus?')">Hapus</button>
+                                                </form>
+                                                <a class="btn btn-secondary" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </table>
@@ -72,7 +78,9 @@
                                 <th>Penulis</th>
                                 <th>Harga</th>
                                 <th>Tanggal Terbit</th>
-                                <th>Aksi</th>
+                                @if (Auth::user()->level == 'admin')
+                                    <th>Aksi</th>
+                                @endif
                             </tr>
                             @foreach($data_buku as $buku)
                                 <tr>
@@ -81,13 +89,15 @@
                                     <td>{{ $buku->penulis }}</td>
                                     <td>Rp{{ number_format($buku->harga, 0, ',', '.') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d/m/Y') }}</td>
-                                    <td class="d-flex flex-row gap-1">
-                                        <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
-                                            @csrf
-                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Yakin mau dihapus?')">Hapus</button>
-                                        </form>
-                                        <a class="btn btn-secondary" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
-                                    </td>
+                                    @if (Auth::user()->level == 'admin')
+                                        <td class="d-flex flex-row gap-1">
+                                            <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
+                                                @csrf
+                                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Yakin mau dihapus?')">Hapus</button>
+                                            </form>
+                                            <a class="btn btn-secondary" href="{{ route('buku.edit', $buku->id) }}">Edit</a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </table>
