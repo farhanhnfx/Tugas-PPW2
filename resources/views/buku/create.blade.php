@@ -22,7 +22,7 @@
                                 @endforeach
                             </ul>
                         @endif
-                        <form method="POST" action="{{ route('buku.store') }}">
+                        <form method="POST" action="{{ route('buku.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="judul" class="form-label">Judul</label>
@@ -43,6 +43,14 @@
                                 <label for="tgl_terbit" class="form-label">Tanggal Terbit</label>
                                 <input type="date" class="date form-control" id="tgl_terbit" name='tgl_terbit'
                                     placeholder="yyyy/mm/dd">
+                            </div>
+                            <div class="mb-3">
+                                <label for="thumbnail" class="form-label">Gambar Thumbnail</label>
+                                <input type="file" class="form-control" name="thumbnail" id="thumbnail">
+                            </div>
+                            <div class="mb-3">
+                                <label for="galeri" class="form-label">Galeri</label>
+                                <input type="file" class="form-control" name="galeri[]" id="galeri" multiple>
                             </div>
                             <div>
                                 <button class="btn btn-outline-success" type="submit">Simpan</button>

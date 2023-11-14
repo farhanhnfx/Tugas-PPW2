@@ -13,12 +13,8 @@
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
                 <div class="container">
-                    @if(Session::has('pesan-tambah'))
-                        <div class="alert alert-success">{{Session::get('pesan-tambah')}}</div>
-                    @elseif (Session::has('pesan-edit'))
-                        <div class="alert alert-warning">{{Session::get('pesan-edit')}}</div>
-                    @elseif (Session::has('pesan-hapus'))
-                        <div class="alert alert-danger">{{Session::get('pesan-hapus')}}</div>
+                    @if(Session::has('pesan'))
+                        <div class="alert alert-success">{{Session::get('pesan')}}</div>
                     @endif
                     <form align='right' action="{{ route('buku.search') }}" method="GET" class="d-flex" role="search">
                         @csrf
@@ -36,7 +32,7 @@
                             <table class="table table-striped table-hover">
                                 <tr>
                                     <th>No</th>
-                                    <th>Judul Buku</th>
+                                    <th>Buku</th>
                                     <th>Penulis</th>
                                     <th>Harga</th>
                                     <th>Tanggal Terbit</th>
@@ -47,7 +43,15 @@
                                 @foreach($data_buku as $buku)
                                     <tr>
                                         <td>{{ ++$no }}.</td>
-                                        <td>{{ $buku->judul }}</td>
+                                        <td>
+                                            @if ($buku->filepath)
+                                                <div class='relative h-10 w-10'>
+                                                    <img class='h-full w-full rounded-full object-cover object-center'
+                                                        src='{{ $buku->filepath }}' alt='abc'>
+                                                </div>
+                                            @endif
+                                            {{ $buku->judul }}
+                                        </td>
                                         <td>{{ $buku->penulis }}</td>
                                         <td>Rp{{ number_format($buku->harga, 0, ',', '.') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d/m/Y') }}</td>
@@ -74,7 +78,8 @@
                         <table class="table table-striped table-hover">
                             <tr>
                                 <th>No</th>
-                                <th>Judul Buku</th>
+                                <th>Thumbnail</th>
+                                <th>Buku</th>
                                 <th>Penulis</th>
                                 <th>Harga</th>
                                 <th>Tanggal Terbit</th>
@@ -85,7 +90,16 @@
                             @foreach($data_buku as $buku)
                                 <tr>
                                     <td>{{ ++$no }}.</td>
-                                    <td>{{ $buku->judul }}</td>
+                                    <td>
+                                        @if ($buku->filepath)
+                                            <div class='relative h-240 w-320'>
+                                                <img class='h-full w-full object-cover object-center'
+                                                    src='{{ $buku->filepath }}' alt='abc'>
+                                            </div>
+                                        @endif</td>
+                                    <td>
+                                        {{ $buku->judul }}
+                                    </td>
                                     <td>{{ $buku->penulis }}</td>
                                     <td>Rp{{ number_format($buku->harga, 0, ',', '.') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d/m/Y') }}</td>

@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
         Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
+
+        Route::post('buku/delete_galeri/{id}', [BukuController::class, 'deleteGaleri'])->name('buku.delete_galeri');
     });
 
     Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
