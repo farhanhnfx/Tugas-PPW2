@@ -32,6 +32,7 @@
                             <table class="table table-striped table-hover">
                                 <tr>
                                     <th>No</th>
+                                    <th>Thumbnail</th>
                                     <th>Buku</th>
                                     <th>Penulis</th>
                                     <th>Harga</th>
@@ -45,11 +46,12 @@
                                         <td>{{ ++$no }}.</td>
                                         <td>
                                             @if ($buku->filepath)
-                                                <div class='relative h-10 w-10'>
-                                                    <img class='h-full w-full rounded-full object-cover object-center'
+                                                <div class='relative h-240 w-320'>
+                                                    <img class='h-full w-full object-cover object-center'
                                                         src='{{ $buku->filepath }}' alt='abc'>
                                                 </div>
-                                            @endif
+                                            @endif</td>
+                                        <td>
                                             {{ $buku->judul }}
                                         </td>
                                         <td>{{ $buku->penulis }}</td>
