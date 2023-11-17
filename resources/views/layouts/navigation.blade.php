@@ -11,11 +11,13 @@
                 </div>
 
                 <!-- Navigation Links -->
+                @if (Auth::check())
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                @endif
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('buku.index')" :active="request()->routeIs('buku')">
@@ -24,6 +26,7 @@
                 </div>
             </div>
 
+            @if (Auth::check())
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
@@ -57,6 +60,7 @@
                     </x-slot>
                 </x-dropdown>
             </div>
+            @endif
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -71,6 +75,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
+    @if(Auth::check())
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -103,4 +108,5 @@
             </div>
         </div>
     </div>
+    @endif
 </nav>

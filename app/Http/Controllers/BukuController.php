@@ -174,4 +174,10 @@ class BukuController extends Controller
 
         return view('buku.index', compact('data_buku', 'no', 'total_harga', 'cari', 'isCari'));
     }
+
+    public function galbuku($id) {
+        $bukus = Buku::find($id);
+        $galeris = $bukus->galeri()->paginate(6);
+        return view('buku.galeri', compact('bukus', 'galeris'));
+    }
 }

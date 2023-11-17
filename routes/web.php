@@ -40,7 +40,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
 
     Route::middleware('admin')->group(function() {
         Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
@@ -54,8 +53,10 @@ Route::middleware('auth')->group(function () {
         Route::post('buku/delete_galeri/{id}', [BukuController::class, 'deleteGaleri'])->name('buku.delete_galeri');
     });
 
-    Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
 });
+Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
+Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
+Route::get('/detail_buku/{id}', [BukuController::class, 'galbuku'])->name('buku.galeri');
 
 
 require __DIR__.'/auth.php';
