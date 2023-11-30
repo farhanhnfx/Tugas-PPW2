@@ -22,4 +22,9 @@ class Buku extends Model
     public function photos() {
         return $this->hasMany(Buku::class, 'buku_id', 'id');
     }
+
+    public function rating()
+    {
+        return $this->hasMany(RatingBuku::class);
+    }
 }

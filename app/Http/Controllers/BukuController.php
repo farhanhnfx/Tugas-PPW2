@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\FavoritBuku;
 use App\Models\Galeri;
+use App\Models\RatingBuku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
@@ -176,8 +178,53 @@ class BukuController extends Controller
     }
 
     public function galbuku($id) {
-        $bukus = Buku::find($id);
-        $galeris = $bukus->galeri()->paginate(6);
-        return view('buku.galeri', compact('bukus', 'galeris'));
+        $buku = Buku::find($id);
+        $galeris = $buku->galeri()->paginate(6);
+        $rating = round(RatingBuku::where('buku_id', $id)->avg('rating'), 2);
+        $favorit = null;
+        if (auth()->user()) {
+            $favorit = FavoritBuku::where('user_id', auth()->user()->id)->where('buku_id', $id)->first();
+        }
+        return view('buku.detail', compact('buku', 'galeris', 'rating', 'favorit'));
+    }
+
+    public function rating(Request $request, string $id) {
+        $buku = Buku::find($id);
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5'
+        ]);
+        $rating = $buku->rating()->where('user_id', auth()->user()->id)->first();
+        if ($rating) {
+            $rating->update([
+                'rating' => $request->rating
+            ]);
+        } else {
+            $buku->rating()->create([
+                'user_id' => auth()->user()->id,
+                'rating' => $request->rating
+            ]);
+        }
+        return redirect()->back()->with('pesan', 'Terima kasih sudah memberikan rating!');
+    }
+
+    public function storeFavourite(Request $request, string $id) {
+        $buku = Buku::find($id);
+        $favorit = FavoritBuku::create([
+            'user_id' => $request->user()->id,
+            'buku_id' => $buku->id
+        ]);
+        return redirect()->back()->with('pesan', 'Buku berhasil ditambahkan ke daftar favorit!');
+    }
+
+    public function myFavourite() {
+        $no = 0;
+        $list_favorit = FavoritBuku::with('buku')->where('user_id', auth()->user()->id)->paginate(10);
+        return view('buku.myfavourite', compact('list_favorit', 'no'));
+    }
+
+    public function deleteFavourite($id) {
+        $favorit = FavoritBuku::find($id);
+        $favorit->delete();
+        return redirect()->back()->with('pesan', 'Buku berhasil dihapus dari daftar favorit!');
     }
 }

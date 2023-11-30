@@ -40,6 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::post('/buku/rating/{id}', [BukuController::class, 'rating'])->name('buku.rating');
+    Route::post('/buku/favourite/{id}', [BukuController::class, 'storeFavourite'])->name('buku.favourite.store');
+    Route::get('/buku/myfavourite', [BukuController::class, 'myFavourite'])->name('buku.favourite.index');
+    Route::post('/buku/favourite/delete/{id}', [BukuController::class, 'deleteFavourite'])->name('buku.favourite.delete');
+
 
     Route::middleware('admin')->group(function() {
         Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');

@@ -37,9 +37,7 @@
                                     <th>Penulis</th>
                                     <th>Harga</th>
                                     <th>Tanggal Terbit</th>
-                                    @if (Auth::check() && Auth::user()->level == 'admin')
-                                        <th>Aksi</th>
-                                    @endif
+                                    <th>Aksi</th>
                                 </tr>
                                 @foreach($data_buku as $buku)
                                     <tr>
